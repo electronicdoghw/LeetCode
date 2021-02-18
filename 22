@@ -1,0 +1,21 @@
+class Solution(object):
+    def generateParenthesis(self, n):
+        """
+        :type n: int
+        :rtype: List[str]
+        """
+        def dfs(path, leftNum, rightNum):
+            if leftNum == 0 and rightNum == 0:
+                res.append(path)
+                return
+            if rightNum < leftNum:
+                return
+            if leftNum > 0:
+                dfs(path+'(', leftNum-1, rightNum)
+            if rightNum > 0:
+                dfs(path+')', leftNum, rightNum-1)
+        
+        res = []
+        path = ''
+        dfs(path, n, n)
+        return res
