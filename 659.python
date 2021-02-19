@@ -1,0 +1,31 @@
+class Solution:
+    def isPossible(self, nums: List[int]) -> bool:
+        #初始化表一
+        dictTime = {}
+        for num in nums:
+            dictTime[num] = dictTime.get(num,0) + 1
+        #初始化表二
+        dictPost = {}
+        for key,value in dictTime.items():
+            dictPost[key] = 0
+        #0 for item in len(dictTime)
+        #遍历一次？
+        for num in nums:
+            if dictTime[num] > 0:
+                if num-1 in dictPost.keys() and dictPost[num-1] > 0:
+                    dictTime[num] = dictTime[num] - 1
+                    dictPost[num-1] = dictPost[num-1] - 1
+                    dictPost[num] = dictPost[num] + 1
+                #如果没有的话只能自己开头
+                else:
+                    #如果后面的存在：
+                    if num+1 in dictTime.keys() and dictTime[num+1] > 0 and num+2 in dictTime.keys() and dictTime[num+2] > 0:
+                        dictTime[num] = dictTime[num] -1
+                        dictTime[num+1] = dictTime[num+1] -1
+                        dictTime[num+2] = dictTime[num+2] -1
+                        dictPost[num+2] = dictPost[num+2] + 1
+                    else:
+                        return False
+        return True
+        
+        
