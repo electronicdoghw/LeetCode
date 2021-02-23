@@ -1,0 +1,37 @@
+class Solution:
+    def restoreIpAddresses(self, s: str) -> List[str]:
+        def dfs(s, length, start, depth):
+            if depth == 4:
+                if start == length:
+                    res.append('.'.join(path[:]))
+                return
+
+            if length - start < (4-depth) or length - start > 3*(4-depth):
+                return
+
+            for i in range(3):
+                if start + i >= length:
+                    return
+                newSeg = newSegment(s, start, i)
+
+                if newSeg != -1:
+                    path.append(str(newSeg))
+                    dfs(s, length, start+i+1,depth+1)
+                    path.pop()
+
+        def newSegment(s, start, len):
+            if len + 1 > 1:
+                if s[start] == '0':
+                    return -1
+            newSeg = int(s[start:start+len+1])
+            if newSeg > 255:
+                return -1
+            return newSeg
+
+        length = len(s)
+        if length < 4 or length > 12:
+            return []
+        res = []
+        path = []
+        dfs(s, length, 0, 0)
+        return res
