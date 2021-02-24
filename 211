@@ -1,0 +1,38 @@
+class WordDictionary:
+
+    def __init__(self):
+        """
+        Initialize your data structure here.
+        """
+        self.lookUp = {}
+
+    def addWord(self, word: str) -> None:
+        tree = self.lookUp
+        for ch in word:
+            if ch not in tree:
+                tree[ch] = {}
+            tree = tree[ch]
+        tree['#'] = {}  #ending     
+
+    def search(self, word: str) -> bool:
+        def dfs(tree, depth):
+            if depth == len(word):
+                if '#' in tree:
+                    return True
+                return False
+                
+            cur = word[depth]
+            if cur == ".":
+                for eachNode in tree:
+                    if dfs(tree[eachNode], depth + 1):
+                        return True
+                    # return False
+            elif cur in tree:
+                if dfs(tree[cur], depth + 1):
+                    return True
+            return False
+        return dfs(self.lookUp, 0)
+# Your WordDictionary object will be instantiated and called as such:
+# obj = WordDictionary()
+# obj.addWord(word)
+# param_2 = obj.search(word)
