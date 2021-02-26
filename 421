@@ -1,0 +1,37 @@
+class Solution:
+    def __init__(self):
+        self.Trie = {}
+
+    def insert(self, num):
+        curr = self.Trie
+        XOR = self.Trie
+        maxOr = 0
+        for n in num:
+            if n not in curr:
+                curr[n] = {}
+            curr = curr[n]
+
+            targetBit = 1 - n   #相反
+            if targetBit in XOR:
+                maxOr = (maxOr << 1) | 1
+                XOR = XOR[targetBit]
+            else:
+                maxOr = maxOr << 1  #补0
+                XOR = XOR[n]
+        return maxOr
+    
+    def findMaximumXOR(self, nums: List[int]) -> int:
+        res = 0
+        trie = self.Trie
+
+        tempMax = 0
+        for num in nums:
+            if num > tempMax:
+                tempMax = num
+        length = len(bin(tempMax)) - 2
+        nums = [[(x >> i) & 1 for i in range(length)][::-1] for x in nums]
+        for num in nums:
+            res = max(res, self.insert(num))
+        return res
+
+        
